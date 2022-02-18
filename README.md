@@ -20,7 +20,7 @@ docker-compose up -d
 > 停用 elk
 
 ```
-docker-compose 
+docker-compose down -v
 ```
 
 ## .Net 程式加入 nlog
