@@ -47,7 +47,7 @@ NLog.Targets.ElasticSearch
 		<add assembly="NLog.Targets.ElasticSearch" />
 	</extensions>
 
-  <targets async="true">
+	<targets async="true">
 		<target name="elastic" xsi:type="BufferingWrapper" flushTimeout="5000">
 			<target xsi:type="ElasticSearch"
 				uri="http://localhost:9200/"
