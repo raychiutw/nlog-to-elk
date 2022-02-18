@@ -1,0 +1,63 @@
+version: '3.2'
+
+services:
+  elasticsearch:
+    image: elasticsearch:7.17.0
+    restart: always
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: 'false'
+      ES_JAVA_OPTS: -Xms1g -Xmx1g
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      #- esconfig:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - esdata:/usr/share/elasticsearch/data:z
+    networks:
+      - elk
+
+  logstash:
+    image: logstash:7.17.0
+    restart: always
+    environment:
+      LS_JAVA_OPTS: -Xmx256m -Xms256m
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+      #volumes:
+      #- lsconfig:/usr/share/logstash/config/logstash.yml:ro,Z
+      #- lspipeline:/usr/share/logstash/pipeline:ro,Z
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: kibana:7.17.0
+    restart: always
+    #volumes: #- kbconfig:/usr/share/kibana/config/kibana.yml:ro,Z
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  esdata:
+    driver: local
+  esconfig:
+    driver: local
+  lsconfig:
+    driver: local
+  lspipeline:
+    driver: local
+  kbconfig:
+    driver: local
