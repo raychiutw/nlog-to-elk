@@ -49,8 +49,7 @@ NLog.Targets.ElasticSearch
 
   <targets async="true">
 		<target name="elastic" xsi:type="BufferingWrapper" flushTimeout="5000">
-			<target
-				xsi:type="ElasticSearch"
+			<target xsi:type="ElasticSearch"
 				uri="http://localhost:9200/"
 				index="pmp-nlog-elk-${date:format=yyyy.MM.dd}"
 				documentType="logevent"
